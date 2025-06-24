@@ -95,7 +95,7 @@ for (j in 1:nrepl) {
   }
   out[j, 1:gen] <- fA
 }
-png("plot_traces.png")
+
 plot(NA, ylim = c(0, 1), xlim = c(1, gen))
 for (i in 1:nrepl){
   linecol <- "blue"
@@ -107,7 +107,7 @@ for (i in 1:nrepl){
   }
   lines(out[i, 1:gen], col=linecol)
 }
-dev.off()
+
 
 fixNum = sum(out[1:nrepl, gen] == 1)
 print(fixNum)
