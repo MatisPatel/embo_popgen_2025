@@ -4,6 +4,8 @@ import matplotlib.pyplot as plt
 from tqdm import tqdm
 import random
 import scipy.stats as scst
+import numpy as np 
+import pandas as pd
 
 plotdir = "/home/patel/embo_popgen_2025/!_MyWork/Day3/practicals/"
 
@@ -35,10 +37,16 @@ T_split = scst.randint(1000, 8000)
 # sample estiamtes 
 sample_fst = 0.2134
 
-runs = 10
+runs = 1000
 tsplit_draws = np.zeros(runs)
 fst_draws = np.zeros(runs)
-
+seg1_draws = np.zeros(runs)
+seg2_draws = np.zeros(runs)
+tajima1_draws = np.zeros(runs)
+tajima2_draws = np.zeros(runs)
+pi1_draws = np.zeros(runs)
+pi2_draws = np.zeros(runs)
+        
 for i in tqdm(range(runs)):
         t_split_sample = T_split.rvs()
         mts = make_pop_hist(
@@ -51,12 +59,37 @@ for i in tqdm(range(runs)):
         sample_sets=[mts.samples(pop_id["Pop1"]), mts.samples(pop_id["Pop2"])]
 
         Fst = mts.Fst(sample_sets)
-        dxy = mts.diversity()
-        
+        dxy = mts.divergence(sample_sets)
+        segs = mts.segregating_sites(sample_sets)
+        seg1 = segs[0] 
+        seg2 = segs[1]
+        tajimas = mts.Tajimas_D(sample_sets)
+        tajima1 = tajimas[0] 
+        tajima2 = tajimas[1]
+        pis = mts.diversity(sample_sets)
+        pi1 = pis[0] 
+        pi2 = pis[1]
         # check for similarity
         # if (np.sqrt((Fst - sample_fst)**2) < 0.01):
         tsplit_draws[i] = t_split_sample
         fst_draws[i] = Fst
+        seg1_draws[i] = seg1 
+        seg2_draws[i] = seg2 
+        tajima1_draws[i] = seg1 
+        tajima2_draws[i] = seg2 
+        pi1_draws[i] = pi1 
+        pi2_draws[i] = pi2
         
-     
-        
+data = {
+        "t_split" : tsplit_draws,
+        "fst" : fst_draws,
+        "seg1" : seg1_draws,
+        "seg2" : seg2_draws,
+        "tajima1" : tajima1_draws,
+        "tajima2" : tajima2_draws,
+        "pi1" : pi1_draws,
+        "pi2" : pi2_draws
+} 
+
+dat = pd.DataFrame(data)
+dat.to_csv("tplit_samples.csv")
