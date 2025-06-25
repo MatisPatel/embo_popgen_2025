@@ -1,6 +1,7 @@
 
 import msprime
 
+
 # Simulate 10 diploid samples under the coalescent with recombination on a 10kb region.
 
 # 100_000 individuals at present

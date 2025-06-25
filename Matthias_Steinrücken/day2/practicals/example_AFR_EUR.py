@@ -54,7 +54,7 @@ plt.clf()
 afs = mts.allele_frequency_spectrum()
 plt.bar(range(mts.num_samples + 1), afs)
 plt.title("Allele frequency spectrum")
-plt.show()
+plt.savefig("MyWork/Day2/msprime/freq.png")
 
 
 # Define the samples between which Fst will be calculated

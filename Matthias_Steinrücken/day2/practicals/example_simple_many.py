@@ -31,7 +31,7 @@ length = 10_000
 seed = 4711
 reco = 1e-8
 pop_size = 10_000
-num_simulations = 100
+num_simulations = 1000
 
 results = repeat_simulations(mut, sample_sizes, length, reco, pop_size, num_simulations, seed=seed)
 
@@ -48,7 +48,7 @@ plt.hist(diversities, bins=10, color='skyblue', edgecolor='black', alpha=0.7)
 plt.xlabel("Nucleotide Diversity (π)")
 plt.ylabel("Frequency")
 plt.title("Histogram of Nucleotide Diversity Across Simulations")
-plt.show()
+plt.savefig("diversity.png")
 
 
 plt.clf()
@@ -57,7 +57,7 @@ plt.hist(tajimas_ds, bins=10, color='pink', edgecolor='black', alpha=0.7)
 plt.xlabel("Tajima's D")
 plt.ylabel("Frequency")
 plt.title("Distribution of Tajima's D Across Simulations")
-plt.show()
+plt.savefig("tajima_d.png")
 
 
 plt.clf()
@@ -71,7 +71,7 @@ for i, afs in enumerate(allele_frequency_spectra):
 plt.xlabel("Frequency")
 plt.ylabel("Number of Sites")
 plt.title("Allele Frequency Spectrum Across Simulations")
-plt.show()
+plt.savefig("freq_spec.png")
 
 combined_afs = np.sum(allele_frequency_spectra, axis=0)
 normalized_afs = combined_afs / np.sum(combined_afs)
