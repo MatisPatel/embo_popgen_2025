@@ -15,12 +15,12 @@ rm(list=ls());
 # given two populations A and B, create a new Admix pop by admixture with 
 # proportions pa and 1-pa.
 
-folder.fastSimcoal2 <- "C:\\Users\\u9424\\OneDrive - Universitat Pompeu Fabra\\Grants\\2025\\EMBO Naples June\\Second day\\";
+folder.fastSimcoal2 <- "/home/patel/embo_popgen_2025/!_MyWork/Day4/morning/";
+plotdir <- "/home/patel/embo_popgen_2025/!_MyWork/Day4/morning/plots/"
 
 setwd(folder.fastSimcoal2);
 
-model.admixed.pop <- function(sample_1, sample_2, sample_admix, effective_population_size_1, effective_population_size_2, effective_population_size_admixed, time_admixture, percentage_from_population_1, time_split, effective_population_size_ancestral, number_of_blocks)
-{
+model.admixed.pop <- function(sample_1, sample_2, sample_admix, effective_population_size_1, effective_population_size_2, effective_population_size_admixed, time_admixture, percentage_from_population_1, time_split, effective_population_size_ancestral, number_of_blocks) {
   lines <- c(
     "//Number of population samples (demes)",
     "3",
@@ -61,14 +61,15 @@ model.admixed.pop <- function(sample_1, sample_2, sample_admix, effective_popula
   }
   
   # Write to file
+  # writeLines(lines, paste(folder.fastSimcoal2, "DemographicModelSplitR.par", sep=""))
   writeLines(lines, "DemographicModelSplitR.par")
-  
-  exe <- ".\\fsc28.exe"
-  args <- c("-i", ".\\DemographicModelSplitR.par", "-x", "-s0", "-d", "-n", "1", "-q", "-G")
+
+  exe <- "fsc28"
+  args <- c("-i", "DemographicModelSplitR.par", "-x", "-s0", "-d", "-n", "1", "-q", "-G")
   # Execute
   system2(exe, args = args)
   
-  data.t <- read.table(file=paste(folder.fastSimcoal2,"\\DemographicModelSplitR\\DemographicModelSplitR_1_1.gen", sep=""), header = T);
+  data.t <- read.table(file=paste(folder.fastSimcoal2,"DemographicModelSplitR/DemographicModelSplitR_1_1.gen", sep=""), header = T);
   
   # First four columns are snp info
   # haplotype matrix. Rows are haplotypes, columns are positions
@@ -95,11 +96,11 @@ sample_admix <- 100;
 effective_population_size_1 <- 1000;
 effective_population_size_2 <- 1000;
 effective_population_size_admixed <- 1000;
-time_admixture <- 10;
+time_admixture <- 100;
 time_split <- 10000;
 effective_population_size_ancestral <- 2000;
 number_of_blocks <- 10;
-percentage_from_population_1 <- 0.3;
+percentage_from_population_1 <- 0.7;
 sim <- model.admixed.pop(sample_1, sample_2, sample_admix, effective_population_size_1, effective_population_size_2, effective_population_size_admixed, time_admixture, percentage_from_population_1, time_split, effective_population_size_ancestral, number_of_blocks)
 # first 5 columns are information of the SNPs
 haplotypes <- sim$haplotype_matrix;
@@ -120,11 +121,13 @@ dmatrix <- dist(genotypes.clean.scaled);
 mds.result <- cmdscale(dmatrix, k = (nrow(as.matrix(dmatrix))-1),add=T,eig=T);
 points.mds <- mds.result$points[,1:2];
 rownames(points.mds) <- pop;
-plot(mds.result$eig); 
+txtplot(mds.result$eig); 
 # plot the result (nicer with ggplot2, of course)
+png(paste(plotdir, "points.png"))
 plot(mds.result$points[,1:2], xlab = paste("DIM 1 (",round(100*mds.result$eig[1]/sum(mds.result$eig),2) ," %)"), ylab = paste("DIM 2 (",round(100*mds.result$eig[2]/sum(mds.result$eig),2) ," %)"))
 points(mds.result$points[pop=="A",1], mds.result$points[pop=="A",2], pch = 19, col ="red");
 points(mds.result$points[pop=="B",1], mds.result$points[pop=="B",2], pch = 19, col ="blue");
+dev.off()
 
 #########################################################################
 # 3. Basic admixture estimator
@@ -189,7 +192,10 @@ for(rep in 1:100)
   percentage.admixture.estimated[rep] <- median(extract.admixture(points.mds))  
 }
 
+png(paste(plotdir, "admixture.png"))
 plot(percentage.admixture, percentage.admixture.estimated);
+dev.off()
+
 summary(lm(percentage.admixture.estimated ~ percentage.admixture));
 
 # What happens if the time of admixture is much older?
@@ -210,10 +216,10 @@ time_split <- 10000;
 effective_population_size_ancestral <- 2000;
 number_of_blocks <- 10;
 percentage_from_population_1 <- 0.5;
-
-time.admixture <- rep(NA,100);
-sd.percentage.admixture.estimated <- rep(NA,100);
-for(rep in 1:100)
+repl <- 20
+time.admixture <- rep(NA,repl);
+sd.percentage.admixture.estimated <- rep(NA,repl);
+for(rep in 1:repl)
 {
   time_admixture <- round(runif(1,1,5000));
   time.admixture[rep] <- time_admixture;
@@ -240,7 +246,9 @@ for(rep in 1:100)
   sd.percentage.admixture.estimated[rep] <- sd(extract.admixture(points.mds))  
 }
 
+png(paste(plotdir, "time_effect.png"))
 plot(time.admixture, sd.percentage.admixture.estimated);
+dev.off()
 
 #########################################################################
 # 6. Grid of 2D stepping stone pops
@@ -331,12 +339,12 @@ model.2D.grid.pop <- function(sample_sizes, nes, migration_rate, number_of_block
   # Write to file
   writeLines(lines, "DemographicModelSplitR.par")
   
-  exe <- ".\\fsc28.exe"
-  args <- c("-i", ".\\DemographicModelSplitR.par", "-x", "-s0", "-d", "-n", "1", "-q", "-G")
+  exe <- "fsc28"
+  args <- c("-i", "DemographicModelSplitR.par", "-x", "-s0", "-d", "-n", "1", "-q", "-G")
   # Execute
   system2(exe, args = args)
   
-  data.t <- read.table(file=paste(folder.fastSimcoal2,"\\DemographicModelSplitR\\DemographicModelSplitR_1_1.gen", sep=""), header = T);
+  data.t <- read.table(file=paste(folder.fastSimcoal2,"/DemographicModelSplitR/DemographicModelSplitR_1_1.gen", sep=""), header = T);
   
   # First four columns are snp info
   # haplotype matrix. Rows are haplotypes, columns are positions
@@ -386,12 +394,13 @@ rownames(points.mds) <- pop;
 
 ma <- data.frame(model = pop, x = points.mds[,1], y = points.mds[,2]);
 
-ggplot(ma, aes(x=x, y=y, color=model)) +
+plt <- ggplot(ma, aes(x=x, y=y, color=model)) +
   geom_point() +
   labs(
     x = paste("DIM 1 (",round(100*mds.result$eig[1]/sum(mds.result$eig),2) ," %)"),
     y = paste("DIM 2 (",round(100*mds.result$eig[2]/sum(mds.result$eig),2) ," %)")
   )
+ggsave(paste(plotdir, "steppingstone_pop.png"), plt)
 
 plot(mds.result$eig); 
 # plot the result (nicer with ggplot2, of course)
@@ -416,7 +425,7 @@ ggplot(ma, aes(x=x, y=-y, color=model)) +
     x = paste("DIM 1 (",round(100*mds.result$eig[1]/sum(mds.result$eig),2) ," %)"),
     y = paste("DIM 2 (",round(100*mds.result$eig[2]/sum(mds.result$eig),2) ," %)")
   )
-
+ggsave(paste(plotdir, "removed_pops.png"))
 # This behaviour occurs also if we have samples that are more related than expected!
 
 #########################################################################

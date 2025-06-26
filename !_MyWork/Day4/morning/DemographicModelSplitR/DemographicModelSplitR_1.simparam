@@ -1,0 +1,122 @@
+Simulation parameters for current simulations
+=============================================
+
+
+Deme sizes
+Deme 0	1000
+Deme 1	1000
+Deme 2	1000
+
+
+Sample sizes
+Deme 0	100
+Deme 1	100
+Deme 2	100
+
+Sample ages
+Deme 0	0
+Deme 1	0
+Deme 2	0
+
+Inbreeding coefficients
+Deme 0	0
+Deme 1	0
+Deme 2	0
+
+Growth rates
+Deme 0	0
+Deme 1	0
+Deme 2	0
+
+
+Historical events
+Event 0
+
+#Time              : 20
+#Source            : 1
+#Sink              : 0
+#Migrants          : 0.5
+#New relative size : 1
+#New growth rate   : 0
+#New migr. matrix  : 0
+Event 1
+
+#Time              : 20
+#Source            : 1
+#Sink              : 2
+#Migrants          : 1
+#New relative size : 1
+#New growth rate   : 0
+#New migr. matrix  : 0
+Event 2
+
+#Time              : 10000
+#Source            : 0
+#Sink              : 2
+#Migrants          : 1
+#New relative size : 2
+#New growth rate   : 0
+#New migr. matrix  : 0
+
+
+Number of independent loci to simulate : 10
+Each with a different chromosomal structure
+
+Number of linkage blocks to simulate in structure 1: 1
+
+   1000000 partially linked DNA loci:
+      recombination, mutation rates and transition rates :0.0000000100   0.0000000186   0.00000
+
+Number of linkage blocks to simulate in structure 2: 1
+
+   1000000 partially linked DNA loci:
+      recombination, mutation rates and transition rates :0.0000000100   0.0000000186   0.00000
+
+Number of linkage blocks to simulate in structure 3: 1
+
+   1000000 partially linked DNA loci:
+      recombination, mutation rates and transition rates :0.0000000100   0.0000000186   0.00000
+
+Number of linkage blocks to simulate in structure 4: 1
+
+   1000000 partially linked DNA loci:
+      recombination, mutation rates and transition rates :0.0000000100   0.0000000186   0.00000
+
+Number of linkage blocks to simulate in structure 5: 1
+
+   1000000 partially linked DNA loci:
+      recombination, mutation rates and transition rates :0.0000000100   0.0000000186   0.00000
+
+Number of linkage blocks to simulate in structure 6: 1
+
+   1000000 partially linked DNA loci:
+      recombination, mutation rates and transition rates :0.0000000100   0.0000000186   0.00000
+
+Number of linkage blocks to simulate in structure 7: 1
+
+   1000000 partially linked DNA loci:
+      recombination, mutation rates and transition rates :0.0000000100   0.0000000186   0.00000
+
+Number of linkage blocks to simulate in structure 8: 1
+
+   1000000 partially linked DNA loci:
+      recombination, mutation rates and transition rates :0.0000000100   0.0000000186   0.00000
+
+Number of linkage blocks to simulate in structure 9: 1
+
+   1000000 partially linked DNA loci:
+      recombination, mutation rates and transition rates :0.0000000100   0.0000000186   0.00000
+
+Number of linkage blocks to simulate in structure 10: 1
+
+   1000000 partially linked DNA loci:
+      recombination, mutation rates and transition rates :0.0000000100   0.0000000186   0.00000
+
+
+
+Random generator initialized with : 438767
+
+
+
+done in 0.467 secs
+
