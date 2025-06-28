@@ -4,6 +4,9 @@
 *.bk
 *.gz
 *.rds
+*.G 
+*.Q 
+
 # History files
 .Rhistory
 .Rapp.history
