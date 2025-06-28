@@ -1,6 +1,9 @@
 # demo files 
 *.par
-
+*.obs
+*.bk
+*.gz
+*.rds
 # History files
 .Rhistory
 .Rapp.history
