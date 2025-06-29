@@ -6,7 +6,7 @@
 *.rds
 *.G 
 *.Q 
-
+*.DS_Store
 # History files
 .Rhistory
 .Rapp.history
